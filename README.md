@@ -20,12 +20,18 @@ The `ft_printf` function supports the following format specifiers:
 
 # Usage
 
+The `ft_printf` function is used in a similar way to the standard `printf` function. Here's an example:
+
+```c
+int main(void)
+{
+	ft_printf("Hello, %s! The answer is %d.\n", "world", 42);
+	return (0);
+}
+```
+
 To compile the project, run the following command:
 ``` shell
 make
 ```
-
-To run the program, use the following command:
-``` shell
-./philo [number_of_philosophers] [time_to_die] [time_to_eat] [time_to_sleep] [number_of_times_each_philosopher_must_eat]
-```
+This code will output: Hello, world! The answer is 42.
