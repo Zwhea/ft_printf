@@ -6,7 +6,7 @@
 /*   By: twang <twang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:32:37 by twang             #+#    #+#             */
-/*   Updated: 2022/11/24 11:01:21 by twang            ###   ########.fr       */
+/*   Updated: 2023/03/24 17:18:14 by twang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ size_t	ft_putnbr_base(unsigned long nbr, char *base)
 
 	base_size = ft_strlen(base);
 	size = 0;
-	if (nbr >= 0 && nbr < base_size)
+	if (nbr < base_size)
 		size += ft_putchar_fd(base[nbr], 1);
 	else
 	{

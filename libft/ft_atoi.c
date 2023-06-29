@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: twang <twang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/10 14:04:18 by twang             #+#    #+#             */
-/*   Updated: 2022/11/18 08:54:18 by twang            ###   ########.fr       */
+/*   Created: 2022/12/19 22:21:51 by wangthea          #+#    #+#             */
+/*   Updated: 2022/12/21 12:26:22 by twang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,9 @@ int	ft_atoi(const char *str)
 
 	sign = 1;
 	result = 0;
-	while (*str == '\t' || *str == '\n' || *str == '\v' || *str == '\f'
-		|| *str == '\r' || *str == ' ')
+	while (*str == ' ' || (*str >= '\t' && *str <= '\r'))
 		str++;
-	if (*str == 43 || *str == 45)
+	while (*str == 43 || *str == 45)
 	{
 		if (*str == 45)
 			sign *= -1;
@@ -30,12 +29,13 @@ int	ft_atoi(const char *str)
 	}
 	while (*str && (*str >= '0' && *str <= '9'))
 	{
-		result = (result * 10) + *str - '0';
-		str++;
+		result = (result * 10) + *str++ - '0';
+		if ((result > 2147483648 && sign == -1)
+			|| (result > 2147483647 && sign == 1))
+		{
+			ft_putstr_fd("Error\n", 2);
+			exit(1);
+		}
 	}
-	if (result > LLONG_MAX && sign > 0)
-		return (-1);
-	if (result > LLONG_MAX && sign < 0)
-		return (0);
 	return ((int)(result * sign));
 }

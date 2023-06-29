@@ -5,79 +5,96 @@
 #                                                     +:+ +:+         +:+      #
 #    By: twang <twang@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/11/07 15:41:17 by twang             #+#    #+#              #
-#    Updated: 2022/11/24 13:04:27 by twang            ###   ########.fr        #
+#    Created: 2023/06/29 09:42:39 by twang             #+#    #+#              #
+#    Updated: 2023/06/29 10:11:02 by twang            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME =				libft.a
+include config/print.mk
 
-HEADERS =			libft.h
-SOURCES = 			ft_isalpha.c	\
-					ft_isdigit.c	\
-					ft_isalnum.c	\
-					ft_isascii.c	\
-					ft_isprint.c	\
-					ft_strlen.c 	\
-					ft_memset.c	\
-					ft_bzero.c  	\
-					ft_memcpy.c	\
-					ft_memmove.c	\
-					ft_strlcpy.c 	\
-					ft_strlcat.c 	\
-					ft_toupper.c 	\
-					ft_tolower.c 	\
-					ft_strchr.c 	\
-					ft_strrchr.c	\
-					ft_strncmp.c	\
-					ft_memchr.c	\
-					ft_memcmp.c		\
-					ft_strnstr.c	\
-					ft_atoi.c		\
-					ft_calloc.c	\
-					ft_strdup.c	\
-					ft_substr.c	\
-					ft_strjoin.c	\
-					ft_strtrim.c	\
-					ft_split.c	\
-					ft_itoa.c		\
-					ft_strmapi.c	\
-					ft_striteri.c	\
-					ft_putchar_fd.c	\
-					ft_putstr_fd.c	\
-					ft_putendl_fd.c	\
-					ft_putnbr_fd.c	\
-					ft_putnbr_base_fd.c \
-					ft_putnbr_unsigned_fd.c \
-					ft_lstnew.c		\
-					ft_lstadd_front.c	\
-					ft_lstsize.c		\
-					ft_lstlast.c		\
-					ft_lstadd_back.c	\
-					ft_lstdelone.c		\
-					ft_lstclear.c		\
-					ft_lstiter.c		\
-					ft_lstmap.c		\
-				
-OBJECTS = $(SOURCES:.c=.o)
+.SILENT:
 
-CFLAGS = -Wall -Wextra -Werror -I .
+#--headers---------------------------------------------------------------------#
 
-all :	$(NAME)
+HEADERS	=	ft_printf.h
 
-$(NAME) : $(OBJECTS)
-	$(AR) rcs $@ $^
+#--sources---------------------------------------------------------------------#
 
-%.o : %.c $(HEADERS) Makefile
+SOURCES		=	ft_printf.c
+
+#--variables-------------------------------------------------------------------#
+
+NAME		=	ft_printf
+TWANG		=	\e]8;;https://profile.intra.42.fr/users/twang\a\e[34mtwang\e[34m\e]8;;\a
+
+OBJ_DIR		=	.objs
+LIBFT_DIR	=	libft
+
+#--flags-----------------------------------------------------------------------#
+
+CFLAGS		=	-Wall -Wextra -Werror -I $(LIBFT_DIR)
+
+#--libs------------------------------------------------------------------------#
+
+LIBFT	=	$(LIBFT_DIR)/libft.a
+
+#--objects---------------------------------------------------------------------#
+
+OBJECTS	=	$(addprefix $(OBJ_DIR)/, $(SOURCES:.c=.o))
+
+#--global rules----------------------------------------------------------------#
+
+.DEFAULT_GOAL = all
+
+#--compilation rules-----------------------------------------------------------#
+
+all:
+	$(MAKE) header
+	$(MAKE) -C ./libft
+	$(MAKE) $(NAME) -j
+
+$(NAME): $(OBJECTS) $(LIBFT)
+	$(CC) $^ $(CFLAGS) $(LIBFT) -o $@
+	$(PRINT_CREATING)
+
+$(OBJ_DIR)/%.o: %.c $(HEADERS) 
+	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
+	$(PRINT_COMPILING)
 
-clean :
-	$(RM) $(OBJECTS)
+#--lib-------------------------------------------------------------------------#
 
-fclean : clean 
+lib:
+	$(MAKE) -C $(LIBFT_DIR)
+	
+#--print header----------------------------------------------------------------#
+
+header:
+	printf "\n${PURPLE}project:\t${END}${BLUE}ft_printf${END}\n"
+	printf "${PURPLE}author:\t\t${END}${BLUE}${TWANG}${END}\n"
+	printf "${PURPLE}compiler:\t${END}${BLUE}${CC}${END}\n"
+	printf "${PURPLE}flags:\t\t${END}${BLUE}${CFLAGS}${END}\n"
+	printf "              ____________________________\n\n"
+
+#--re, clean & fclean----------------------------------------------------------#
+
+re:
+	clear
+	$(MAKE) fclean
+	$(MAKE) -j all
+
+clean:
+	$(MAKE) -C $(LIBFT_DIR) clean
+	$(RM) -rf $(OBJECTS)
+	$(PRINT_CLEAN)
+
+fclean:
+	clear
+	$(MAKE) clean
+	$(MAKE) -C $(LIBFT_DIR) fclean
 	$(RM) $(NAME)
+	$(PRINT_FCLEAN)
 
-re : fclean
-	$(MAKE) all
+#--PHONY-----------------------------------------------------------------------#
 
-.PHONY: all clean fclean re
+.PHONY: all lib header re clean fclean

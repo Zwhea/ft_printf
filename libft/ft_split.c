@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: twang <twang@student.42.fr>                +#+  +:+       +#+        */
+/*   By: wangthea <wangthea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 08:21:47 by twang             #+#    #+#             */
-/*   Updated: 2022/11/18 16:12:45 by twang            ###   ########.fr       */
+/*   Updated: 2022/12/09 16:22:02 by wangthea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	*ft_free(char **s, size_t len)
+void	*ft_free(char **s, size_t len)
 {
 	size_t	i;
 
@@ -49,7 +49,7 @@ static int	word_count(char const *s, char c)
 	return (nb_word);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char *s, char c)
 {
 	int		i;
 	int		j;

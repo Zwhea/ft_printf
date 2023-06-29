@@ -6,7 +6,7 @@
 /*   By: twang <twang@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:32:37 by twang             #+#    #+#             */
-/*   Updated: 2022/11/23 18:04:19 by twang            ###   ########.fr       */
+/*   Updated: 2023/03/24 17:18:27 by twang            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ size_t	ft_putnbr_unsigned_fd(unsigned int n, int fd)
 	size_t	size;
 
 	size = 0;
-	if (n >= 0 && n <= 9)
+	if (n <= 9)
 	{
 		size += ft_putchar_fd((n + '0'), fd);
 	}
